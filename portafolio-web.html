@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NX TECH - Catálogo de Productos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #fff;
+            --accent-color: #444;
+            --gray-light: #f5f5f5;
+            --gray: #888;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray-light);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .nx {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        nav ul li {
+            list-style: none;
+        }
+        
+        nav ul li a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--gray);
+        }
+        
+        .catalog-header {
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(40,40,40,0.8) 100%), url('/api/placeholder/1200/400') center/cover no-repeat;
+            color: var(--secondary-color);
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .catalog-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .catalog-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .filter-bar {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-button {
+            background-color: var(--gray-light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        .products-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-details {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .product-features {
+            margin-bottom: 1rem;
+        }
+        
+        .product-feature {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-feature i {
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .buy-button {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .buy-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .catalog-header h1 {
+                font-size: 2rem;
+            }
+            
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <span class="nx">NX</span> TECH
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="https://wa.me/+573180054426">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="catalog-header">
+        <h1>Catálogo de Productos</h1>
+        <p>Descubre nuestra selección de dispositivos tecnológicos de alta calidad a precios accesibles.</p>
+    </div>
+    
+    <div class="filter-bar">
+        <button class="filter-button active">Todos</button>
+        <button class="filter-button">Audio</button>
+        <button class="filter-button">Carga</button>
+        <button class="filter-button">Accesorios PC</button>
+    </div>
+
+    <div class="products-container">
+<!-- Product 1: TU330 Keyboard -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tu330.png" alt="Teclado TU-330">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Accesorios PC</div>
+        <h3 class="product-title">TECLADO ESPECIAL TU-330</h3>
+        <div class="product-price">$60.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Teclado%20TU-330" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 2: Wit Keyboard and Mouse -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="wit.png" alt="Kit Teclado y Mouse Wit">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Accesorios PC</div>
+        <h3 class="product-title">KIT TECLADO Y MOUSE WIT</h3>
+        <div class="product-price">$63.5000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Kit%20Teclado%20y%20Mouse%20Wit" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 3: Plugins Car Charger -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="plugins.png" alt="Cargador para Carro">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Carga</div>
+        <h3 class="product-title">CARGADOR PARA CARRO PLUGINS</h3>
+        <div class="product-price">$35.500</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Cargador%20para%20Carro%20Plugins" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 4: Ultrapods -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="ultrapods.png" alt="Adaptador USB-C">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">C ULTRAPODS</h3>
+        <div class="product-price">$60.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20C%20Ultrapods" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 5: Extra Bass Earbuds -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="EXTRA.png" alt="Auriculares Extra Bass">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">AURICULARES CLK EXTRA BASS</h3>
+        <div class="product-price">$60.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20CLK%20Extra%20Bass" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 6: iPods12 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="inpods12.png" alt="Auriculares iPods12">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">AURICULARES IPODS12</h3>
+        <div class="product-price">$27.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20iPods12" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 7: Mouse -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="mouse.png" alt="Mouse Inalámbrico">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Accesorios PC</div>
+        <h3 class="product-title">MOUSE INALÁMBRICO</h3>
+        <div class="product-price">$22.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Mouse%20Inalámbrico" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 8: Screen Capture Device -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Captura de pantalla 2025-03-04 181842-Photoroom.png" alt="Adaptador">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Accesorios PC</div>
+        <h3 class="product-title">Adaptador de Internet y Bluetooth</h3>
+        <div class="product-price">$50.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20el%20adaptador%20de%20Internet" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+
+
+<!-- Product 9: Reloj Smartwatch -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="relojk.png" alt="Reloj Inteligente">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Reloj</div>
+        <h3 class="product-title">SMARTWATCH</h3>
+        <div class="product-price">$130.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Smartwatch" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 8: Android Earphones -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="andoid-Photoroom.png" alt="Auriculares para Android">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">AURICULARES PARA ANDROID</h3>
+        <div class="product-price">$10.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20para%20Android" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 9: MI Charger -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="cargador-Photoroom.png" alt="Cargador Xiaomi">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Carga</div>
+        <h3 class="product-title">CARGADOR XIAOMI 67W MAX</h3>
+        <div class="product-price">$40.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Cargador%20Xiaomi%2067W" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+<!-- Product 10: iPhone Earphones -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="audio tipo iph-Photoroom.png" alt="Auriculares tipo iPhone">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">AURICULARES TIPO IPHONE</h3>
+        <div class="product-price">$10.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20tipo%20iPhone" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+
+
+<!-- Product 11: AirPods Pro 2 (from your example) -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="IMG-14912675-Photoroom.png" alt="Auriculares Bluetooth">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">AIRPODS PRO 2</h3>
+        <div class="product-price">$85.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Auricular%20NX-B200" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+    
+<!-- Product 12: JBL (from your example) -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="jbl.jpg" alt="Auriculares Bluetooth">
+    </div>
+    <div class="product-details">
+        <div class="product-category">Audio</div>
+        <h3 class="product-title">Parlante JBL</h3>
+        <div class="product-price">$200.000</div>
+        <div class="product-features"></div>
+        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%Parlante%20Jbl" class="buy-button">
+            <i class="fab fa-whatsapp"></i> Comprar Ahora
+        </a>
+    </div>
+</div>
+    
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <footer>
+        <p>&copy; 2025 NX TECH. Todos los derechos reservados.</p>
+    </footer>
+    
+    <script>
+        // Simple filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.textContent.trim();
+                    
+                    // Show/hide products based on filter
+                    productCards.forEach(card => {
+                        const category = card.querySelector('.product-category').textContent;
+                        
+                        if (filter === 'Todos' || category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const productsContainer = document.querySelector('.products-container');
+    const productCards = Array.from(document.querySelectorAll('.product-card'));
+    
+    // Función para randomizar el array de productos
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Randomizar los productos
+    const shuffledProducts = shuffleArray(productCards);
+    
+    // Limpiar el contenedor de productos
+    productsContainer.innerHTML = '';
+    
+    // Insertar los productos en orden aleatorio
+    shuffledProducts.forEach(product => {
+        productsContainer.appendChild(product);
+    });
+    
+    // Mantener la funcionalidad de filtro original
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const filter = this.textContent.trim();
+            
+            // Show/hide products based on filter
+            productCards.forEach(card => {
+                const category = card.querySelector('.product-category').textContent;
+                
+                if (filter === 'Todos' || category === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+    </script>
+</body>
+</html>
