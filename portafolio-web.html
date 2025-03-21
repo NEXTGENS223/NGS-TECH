@@ -12,6 +12,7 @@
             --accent-color: #444;
             --gray-light: #f5f5f5;
             --gray: #888;
+            --blue: #008CBA;
         }
         
         * {
@@ -56,6 +57,7 @@
         nav ul {
             display: flex;
             gap: 1rem;
+            align-items: center;
         }
         
         nav ul li {
@@ -71,6 +73,26 @@
         
         nav ul li a:hover {
             color: var(--gray);
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--blue);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .catalog-header {
@@ -194,12 +216,16 @@
             font-size: 0.8rem;
         }
         
-        .buy-button {
+        .button-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .buy-button, .add-to-cart-button {
             background-color: var(--primary-color);
             color: var(--secondary-color);
             border: none;
             padding: 0.8rem;
-            width: 100%;
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
@@ -211,8 +237,21 @@
             text-decoration: none;
         }
         
-        .buy-button:hover {
+        .buy-button {
+            flex: 2;
+        }
+        
+        .add-to-cart-button {
+            flex: 1;
             background-color: var(--accent-color);
+        }
+        
+        .buy-button:hover {
+            background-color: #222;
+        }
+        
+        .add-to-cart-button:hover {
+            background-color: #555;
         }
         
         .back-to-top {
@@ -245,6 +284,198 @@
             padding: 1rem;
         }
         
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: var(--secondary-color);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 350px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: modalFade 0.3s ease;
+        }
+        
+        @keyframes modalFade {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-button {
+            color: var(--gray);
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-button:hover {
+            color: var(--primary-color);
+        }
+        
+        .form-title {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-align: left;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 2px rgba(0,140,186,0.2);
+        }
+        
+        .submit-button {
+            background-color: var(--blue);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-button:hover {
+            background-color: #006d91;
+        }
+        
+        /* Cart modal styles */
+        .cart-modal .modal-content {
+            width: 500px;
+        }
+        
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .cart-item-details {
+            flex: 1;
+            padding: 0 0.8rem;
+        }
+        
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .cart-item-price {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background-color: var(--gray-light);
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--gray);
+            color: white;
+        }
+        
+        .remove-item-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        .remove-item-btn:hover {
+            color: #f44336;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-light);
+        }
+        
+        .cart-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .cart-buttons button {
+            flex: 1;
+        }
+        
+        .clear-cart-btn {
+            background-color: #f44336;
+        }
+        
+        .clear-cart-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .no-items-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+        
         @media (max-width: 768px) {
             .catalog-header h1 {
                 font-size: 2rem;
@@ -252,6 +483,18 @@
             
             .products-container {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .modal-content {
+                margin: 20% auto;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .cart-modal .modal-content {
+                width: 90%;
             }
         }
     </style>
@@ -266,6 +509,10 @@
                 <ul>
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="https://wa.me/+573180054426">Contacto</a></li>
+                    <li class="cart-icon" onclick="openCartModal()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -281,322 +528,635 @@
         <button class="filter-button">Audio</button>
         <button class="filter-button">Carga</button>
         <button class="filter-button">Accesorios PC</button>
+        <button class="filter-button">Reloj</button>
     </div>
 
     <div class="products-container">
-<!-- Product 1: TU330 Keyboard -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="tu330.png" alt="Teclado TU-330">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Accesorios PC</div>
-        <h3 class="product-title">TECLADO ESPECIAL TU-330</h3>
-        <div class="product-price">$60.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Teclado%20TU-330" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 1: TU330 Keyboard -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="tu330.png" alt="Teclado TU-330">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Accesorios PC</div>
+                <h3 class="product-title">TECLADO ESPECIAL TU-330</h3>
+                <div class="product-price">$60.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('TECLADO ESPECIAL TU-330', 60000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('TECLADO ESPECIAL TU-330', 60000, 'tu330.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 2: Wit Keyboard and Mouse -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="wit.png" alt="Kit Teclado y Mouse Wit">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Accesorios PC</div>
-        <h3 class="product-title">KIT TECLADO Y MOUSE WIT</h3>
-        <div class="product-price">$63.5000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Kit%20Teclado%20y%20Mouse%20Wit" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 2: Wit Keyboard and Mouse -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="wit.png" alt="Kit Teclado y Mouse Wit">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Accesorios PC</div>
+                <h3 class="product-title">KIT TECLADO Y MOUSE WIT</h3>
+                <div class="product-price">$63.500</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('KIT TECLADO Y MOUSE WIT', 63500)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('KIT TECLADO Y MOUSE WIT', 63500, 'wit.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 3: Plugins Car Charger -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="plugins.png" alt="Cargador para Carro">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Carga</div>
-        <h3 class="product-title">CARGADOR PARA CARRO PLUGINS</h3>
-        <div class="product-price">$35.500</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Cargador%20para%20Carro%20Plugins" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 3: Plugins Car Charger -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="plugins.png" alt="Cargador para Carro">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Carga</div>
+                <h3 class="product-title">CARGADOR PARA CARRO PLUGINS</h3>
+                <div class="product-price">$35.500</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('CARGADOR PARA CARRO PLUGINS', 35500)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('CARGADOR PARA CARRO PLUGINS', 35500, 'plugins.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 4: Ultrapods -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="ultrapods.png" alt="Adaptador USB-C">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">C ULTRAPODS</h3>
-        <div class="product-price">$60.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20C%20Ultrapods" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 4: Ultrapods -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="ultrapods.png" alt="Adaptador USB-C">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">C ULTRAPODS</h3>
+                <div class="product-price">$60.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('C ULTRAPODS', 60000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('C ULTRAPODS', 60000, 'ultrapods.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 5: Extra Bass Earbuds -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="EXTRA.png" alt="Auriculares Extra Bass">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">AURICULARES CLK EXTRA BASS</h3>
-        <div class="product-price">$60.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20CLK%20Extra%20Bass" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 5: Extra Bass Earbuds -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="EXTRA.png" alt="Auriculares Extra Bass">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">AURICULARES CLK EXTRA BASS</h3>
+                <div class="product-price">$60.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('AURICULARES CLK EXTRA BASS', 60000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES CLK EXTRA BASS', 60000, 'EXTRA.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 6: iPods12 -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="inpods12.png" alt="Auriculares iPods12">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">AURICULARES IPODS12</h3>
-        <div class="product-price">$27.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20iPods12" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 6: iPods12 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="inpods12.png" alt="Auriculares iPods12">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">AURICULARES IPODS12</h3>
+                <div class="product-price">$27.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('AURICULARES IPODS12', 27000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES IPODS12', 27000, 'inpods12.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 7: Mouse -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="mouse.png" alt="Mouse Inalámbrico">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Accesorios PC</div>
-        <h3 class="product-title">MOUSE INALÁMBRICO</h3>
-        <div class="product-price">$22.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Mouse%20Inalámbrico" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 7: Mouse -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="mouse.png" alt="Mouse Inalámbrico">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Accesorios PC</div>
+                <h3 class="product-title">MOUSE INALÁMBRICO</h3>
+                <div class="product-price">$22.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('MOUSE INALÁMBRICO', 22000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('MOUSE INALÁMBRICO', 22000, 'mouse.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 8: Screen Capture Device -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="Captura de pantalla 2025-03-04 181842-Photoroom.png" alt="Adaptador">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Accesorios PC</div>
-        <h3 class="product-title">Adaptador de Internet y Bluetooth</h3>
-        <div class="product-price">$50.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20el%20adaptador%20de%20Internet" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 8: Screen Capture Device -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Captura de pantalla 2025-03-04 181842-Photoroom.png" alt="Adaptador">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Accesorios PC</div>
+                <h3 class="product-title">Adaptador de Internet y Bluetooth</h3>
+                <div class="product-price">$50.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('Adaptador de Internet y Bluetooth', 50000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('Adaptador de Internet y Bluetooth', 50000, 'Captura de pantalla 2025-03-04 181842-Photoroom.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
+        <!-- Product 9: Reloj Smartwatch -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="relojk.png" alt="Reloj Inteligente">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Reloj</div>
+                <h3 class="product-title">SMARTWATCH</h3>
+                <div class="product-price">$130.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('SMARTWATCH', 130000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('SMARTWATCH', 130000, 'relojk.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
+        <!-- Product 10: Android Earphones -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="andoid-Photoroom.png" alt="Auriculares para Android">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">AURICULARES PARA ANDROID</h3>
+                <div class="product-price">$10.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('AURICULARES PARA ANDROID', 10000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES PARA ANDROID', 10000, 'andoid-Photoroom.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 9: Reloj Smartwatch -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="relojk.png" alt="Reloj Inteligente">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Reloj</div>
-        <h3 class="product-title">SMARTWATCH</h3>
-        <div class="product-price">$130.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Smartwatch" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 11: MI Charger -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="cargador-Photoroom.png" alt="Cargador Xiaomi">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Carga</div>
+                <h3 class="product-title">CARGADOR XIAOMI 67W MAX</h3>
+                <div class="product-price">$40.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('CARGADOR XIAOMI 67W MAX', 40000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('CARGADOR XIAOMI 67W MAX', 40000, 'cargador-Photoroom.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 8: Android Earphones -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="andoid-Photoroom.png" alt="Auriculares para Android">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">AURICULARES PARA ANDROID</h3>
-        <div class="product-price">$10.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20para%20Android" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 12: iPhone Earphones -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="audio tipo iph-Photoroom.png" alt="Auriculares tipo iPhone">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">AURICULARES TIPO IPHONE</h3>
+                <div class="product-price">$10.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('AURICULARES TIPO IPHONE', 10000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES TIPO IPHONE', 10000, 'audio tipo iph-Photoroom.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-<!-- Product 9: MI Charger -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="cargador-Photoroom.png" alt="Cargador Xiaomi">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Carga</div>
-        <h3 class="product-title">CARGADOR XIAOMI 67W MAX</h3>
-        <div class="product-price">$40.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Cargador%20Xiaomi%2067W" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
+        <!-- Product 13: AirPods Pro 2 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="IMG-14912675-Photoroom.png" alt="Auriculares Bluetooth">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">AIRPODS PRO 2</h3>
+                <div class="product-price">$85.000</div>
+                <div class="product-features"></div>
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('AIRPODS PRO 2', 85000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('AIRPODS PRO 2', 85000, 'IMG-14912675-Photoroom.png')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product 14: JBL -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="jbl.jpg" alt="Parlante JBL">
+            </div>
+            <div class="product-details">
+                <div class="product-category">Audio</div>
+                <h3 class="product-title">Parlante JBL</h3>
+                <div class="product-price">$200.000</div>
+                <div class="product-features"></div>
 
-<!-- Product 10: iPhone Earphones -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="audio tipo iph-Photoroom.png" alt="Auriculares tipo iPhone">
+                <div class="button-container">
+                    <button class="buy-button" onclick="openBuyForm('Parlante JBL', 200000)">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                    <button class="add-to-cart-button" onclick="addToCart('Parlante JBL', 200000, 'jbl.jpg')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">AURICULARES TIPO IPHONE</h3>
-        <div class="product-price">$10.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20los%20Auriculares%20tipo%20iPhone" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
-
-
-<!-- Product 11: AirPods Pro 2 (from your example) -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="IMG-14912675-Photoroom.png" alt="Auriculares Bluetooth">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">AIRPODS PRO 2</h3>
-        <div class="product-price">$85.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%20Auricular%20NX-B200" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
-    
-<!-- Product 12: JBL (from your example) -->
-<div class="product-card">
-    <div class="product-image">
-        <img src="jbl.jpg" alt="Auriculares Bluetooth">
-    </div>
-    <div class="product-details">
-        <div class="product-category">Audio</div>
-        <h3 class="product-title">Parlante JBL</h3>
-        <div class="product-price">$200.000</div>
-        <div class="product-features"></div>
-        <a href="https://wa.me/+573180054426?text=Hola,%20me%20interesa%20el%Parlante%20Jbl" class="buy-button">
-            <i class="fab fa-whatsapp"></i> Comprar Ahora
-        </a>
-    </div>
-</div>
     
     <a href="#" class="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </a>
+    
+    <!-- Buy Modal -->
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeBuyForm()">&times;</span>
+            <h2 class="form-title">Formulario de Compra</h2>
+            <form id="buyForm">
+                <input type="hidden" id="productName" name="productName">
+                <input type="hidden" id="productPrice" name="productPrice">
+                
+                <div class="form-group">
+                    <label for="name" class="form-label">Nombre Completo</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Teléfono</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address" class="form-label">Dirección de Entrega</label>
+                    <input type="text" id="address" name="address" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod" class="form-label">Método de Pago</label>
+                    <select id="paymentMethod" name="paymentMethod" class="form-input" required>
+                        <option value="" disabled selected>Seleccione un método de pago</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="transferencia">Transferencia Bancaria</option>
+                        <option value="nequi">Nequi</option>
+                        <option value="daviplata">Daviplata</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-button">Confirmar Pedido</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal cart-modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCartModal()">&times;</span>
+            <h2 class="form-title">Carrito de Compras</h2>
+            <div id="cartItems" class="cart-items">
+                <!-- Cart items will be added here -->
+                <div class="no-items-message">
+                    <p>No hay productos en el carrito</p>
+                </div>
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <div class="cart-buttons">
+                <button class="submit-button clear-cart-btn" onclick="clearCart()">Vaciar Carrito</button>
+                <button class="submit-button" onclick="checkout()">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
     
     <footer>
         <p>&copy; 2025 NX TECH. Todos los derechos reservados.</p>
     </footer>
     
     <script>
-        // Simple filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-button');
-            const productCards = document.querySelectorAll('.product-card');
+        // Cart functionality
+        let cart = [];
+        
+        function addToCart(name, price, image) {
+            // Check if product is already in cart
+            const existingItem = cart.find(item => item.name === name);
             
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            showAddedToCartMessage(name);
+        }
+        
+        function showAddedToCartMessage(productName) {
+            alert(`${productName} ha sido añadido al carrito.`);
+        }
+        
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        function updateCartModal() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="no-items-message">
+                        <p>No hay productos en el carrito</p>
+                    </div>
+                `;
+                cartTotalElement.textContent = '$0';
+                return;
+            }
+            
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">$${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+                        <button class="remove-item-btn" onclick="removeItem(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                cartItemsContainer.appendChild(itemElement);
+            });
+            
+            cartTotalElement.textContent = `$${total.toLocaleString()}`;
+        }
+        
+        function increaseQuantity(index) {
+            cart[index].quantity += 1;
+            updateCartModal();
+            updateCartCount();
+        }
+        
+        function decreaseQuantity(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                removeItem(index);
+            }
+            updateCartModal();
+            updateCartCount();
+        }
+        
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartModal();
+            updateCartCount();
+        }
+        
+        function clearCart() {
+            cart = [];
+            updateCartModal();
+            updateCartCount();
+        }
+        
+        function checkout() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            
+            // Get the total
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+            
+            // Create a product list for WhatsApp
+            let productList = '';
+            cart.forEach(item => {
+                productList += `*${item.name}* - ${item.quantity} x $${item.price.toLocaleString()} = $${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+            
+            // Create WhatsApp message
+            const message = `¡Hola! Quiero realizar el siguiente pedido:\n\n${productList}\n*Total: $${total.toLocaleString()}*`;
+            
+            // Encode the message for a URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp with the message
+            window.open(`https://wa.me/+573180054426?text=${encodedMessage}`, '_blank');
+        }
+        
+        // Modal functionality
+        function openBuyForm(productName, productPrice) {
+            const modal = document.getElementById('buyModal');
+            document.getElementById('productName').value = productName;
+            document.getElementById('productPrice').value = productPrice;
+            modal.style.display = 'block';
+        }
+        
+        function closeBuyForm() {
+            const modal = document.getElementById('buyModal');
+            modal.style.display = 'none';
+        }
+        
+        function openCartModal() {
+            const modal = document.getElementById('cartModal');
+            updateCartModal();
+            modal.style.display = 'block';
+        }
+        
+        function closeCartModal() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'none';
+        }
+        
+        // Close modal when clicking outside the modal content
+        window.onclick = function(event) {
+            const buyModal = document.getElementById('buyModal');
+            const cartModal = document.getElementById('cartModal');
+            
+            if (event.target === buyModal) {
+                buyModal.style.display = 'none';
+            }
+            
+            if (event.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+        };
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const productCards = document.querySelectorAll('.product-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filter = button.textContent.trim();
+                
+                // Filter products
+                productCards.forEach(card => {
+                    const category = card.querySelector('.product-category').textContent;
                     
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    const filter = this.textContent.trim();
-                    
-                    // Show/hide products based on filter
-                    productCards.forEach(card => {
-                        const category = card.querySelector('.product-category').textContent;
-                        
-                        if (filter === 'Todos' || category === filter) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
+                    if (filter === 'Todos' || category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-button');
+        
+        // Form submission
+        document.getElementById('buyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            
+            // Create WhatsApp message
+            const message = `¡Hola! Me interesa comprar:\n\n*Producto:* ${productName}\n*Precio:* $${parseInt(productPrice).toLocaleString()}\n\n*Datos de envío:*\n*Nombre:* ${name}\n*Teléfono:* ${phone}\n*Dirección:* ${address}\n*Método de pago:* ${paymentMethod}`;
+            
+            // Encode the message for a URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp with the message
+            window.open(`https://wa.me/+573180054426?text=${encodedMessage}`, '_blank');
+            
+            // Close the modal
+            closeBuyForm();
+        });
+        
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.opacity = '1';
+            } else {
+                backToTopButton.style.opacity = '0';
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        // Función para ordenar productos aleatoriamente
+function shuffleProducts() {
     const productsContainer = document.querySelector('.products-container');
-    const productCards = Array.from(document.querySelectorAll('.product-card'));
+    const productCards = Array.from(productsContainer.querySelectorAll('.product-card'));
     
-    // Función para randomizar el array de productos
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+    // Mezclar array de productos
+    for (let i = productCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [productCards[i], productCards[j]] = [productCards[j], productCards[i]];
     }
     
-    // Randomizar los productos
-    const shuffledProducts = shuffleArray(productCards);
-    
-    // Limpiar el contenedor de productos
+    // Vaciar el contenedor
     productsContainer.innerHTML = '';
     
-    // Insertar los productos en orden aleatorio
-    shuffledProducts.forEach(product => {
-        productsContainer.appendChild(product);
+    // Agregar productos en el nuevo orden
+    productCards.forEach(card => {
+        productsContainer.appendChild(card);
     });
-    
-    // Mantener la funcionalidad de filtro original
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            const filter = this.textContent.trim();
-            
-            // Show/hide products based on filter
-            productCards.forEach(card => {
-                const category = card.querySelector('.product-category').textContent;
-                
-                if (filter === 'Todos' || category === filter) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-});
+}
+
+// Ejecutar cuando la página se cargue
+document.addEventListener('DOMContentLoaded', shuffleProducts);
     </script>
 </body>
 </html>
