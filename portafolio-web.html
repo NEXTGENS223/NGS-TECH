@@ -3,1179 +3,796 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NX TECH - Catálogo de Productos</title>
+    <title>NEXTGENS - Productos de Tecnología</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #000;
-            --secondary-color: #fff;
-            --accent-color: #444;
-            --gray-light: #f5f5f5;
-            --gray: #888;
-            --blue: #008CBA;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --secondary-color: #f8f9fa;
+            --accent-color: #808080;
         }
         
         body {
-            background-color: var(--gray-light);
-            color: #333;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--primary-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
         }
         
-        header {
+        .navbar {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            color: white;
         }
         
         .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
+            max-height: 100px;
+            filter: brightness(0) invert(1);
         }
         
-        .nx {
-            color: var(--secondary-color);
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        nav ul li {
-            list-style: none;
-        }
-        
-        nav ul li a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        nav ul li a:hover {
-            color: var(--gray);
-        }
-        
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: var(--blue);
+        .hero-section {
+            background-color: var(--primary-color);
             color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .catalog-header {
-            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(40,40,40,0.8) 100%), url('/api/placeholder/1200/400') center/cover no-repeat;
-            color: var(--secondary-color);
-            padding: 3rem 1rem;
+            padding: 50px 0;
             text-align: center;
         }
         
-        .catalog-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
         }
         
-        .catalog-header p {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .filter-bar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .filter-button {
-            background-color: var(--gray-light);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-button:hover, .filter-button.active {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
-        
-        .products-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        
-        .product-card {
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .product-card:hover {
+        .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .product-image {
+        .card-img-top {
             height: 200px;
-            background-color: var(--gray-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .product-image img {
-            max-width: 100%;
-            max-height: 100%;
             object-fit: contain;
+            padding: 15px;
         }
         
-        .product-details {
-            padding: 1.5rem;
-        }
-        
-        .product-category {
-            font-size: 0.8rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        
-        .product-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        
-        .product-features {
-            margin-bottom: 1rem;
-        }
-        
-        .product-feature {
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .product-feature i {
-            color: var(--accent-color);
-            margin-right: 0.5rem;
-            font-size: 0.8rem;
-        }
-        
-        .button-container {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .buy-button, .add-to-cart-button {
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
         }
         
-        .buy-button {
-            flex: 2;
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
         
-        .add-to-cart-button {
-            flex: 1;
+        .btn-primary:hover {
             background-color: var(--accent-color);
+            border-color: var(--accent-color);
         }
         
-        .buy-button:hover {
-            background-color: #222;
+        .category-filter {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
         }
         
-        .add-to-cart-button:hover {
-            background-color: #555;
+        .category-btn {
+            margin: 5px;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: white;
         }
         
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        .category-btn.active, .category-btn:hover {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            opacity: 0.7;
-            transition: all 0.3s ease;
+            color: white;
         }
         
-        .back-to-top:hover {
-            opacity: 1;
-            transform: translateY(-3px);
+        #productDetail {
+            display: none;
+        }
+        
+        #customerForm {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        
+        .form-title {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
         }
         
         footer {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
-            text-align: center;
-            padding: 1rem;
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
         }
         
-        /* Modal styles */
-        .modal {
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Product detail page styling */
+        .product-image-lg {
+            max-height: 400px;
+            object-fit: contain;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .product-specs {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .star-rating {
+            color: #ffc107;
+        }
+        
+        .back-to-catalog {
+            margin-bottom: 20px;
+        }
+        
+        /* Success message */
+        #successMessage {
             display: none;
+            background-color: rgba(0, 0, 0, 0.8);
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.7);
-            transition: all 0.3s ease;
-        }
-        
-        .modal-content {
-            background-color: var(--secondary-color);
-            margin: 10% auto;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 350px;
-            max-width: 90%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: modalFade 0.3s ease;
-        }
-        
-        @keyframes modalFade {
-            from {opacity: 0; transform: translateY(-20px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-        
-        .close-button {
-            color: var(--gray);
-            float: right;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .close-button:hover {
-            color: var(--primary-color);
-        }
-        
-        .form-title {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            text-align: left;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--gray);
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--blue);
-            box-shadow: 0 0 0 2px rgba(0,140,186,0.2);
-        }
-        
-        .submit-button {
-            background-color: var(--blue);
-            color: var(--secondary-color);
-            border: none;
-            padding: 0.8rem;
-            width: 100%;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-        
-        .submit-button:hover {
-            background-color: #006d91;
-        }
-        
-        /* Cart modal styles */
-        .cart-modal .modal-content {
-            width: 500px;
-        }
-        
-        .cart-items {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
-        
-        .cart-item {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--gray-light);
-        }
-        
-        .cart-item-details {
-            flex: 1;
-            padding: 0 0.8rem;
-        }
-        
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-        
-        .cart-item-price {
-            color: var(--accent-color);
-            font-size: 0.9rem;
-        }
-        
-        .cart-item-quantity {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .quantity-btn {
-            background-color: var(--gray-light);
-            border: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .quantity-btn:hover {
-            background-color: var(--gray);
+            z-index: 1100;
             color: white;
-        }
-        
-        .remove-item-btn {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            margin-left: 0.5rem;
-        }
-        
-        .remove-item-btn:hover {
-            color: #f44336;
-        }
-        
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 1rem 0;
-            padding-top: 1rem;
-            border-top: 2px solid var(--gray-light);
-        }
-        
-        .cart-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .cart-buttons button {
-            flex: 1;
-        }
-        
-        .clear-cart-btn {
-            background-color: #f44336;
-        }
-        
-        .clear-cart-btn:hover {
-            background-color: #d32f2f;
-        }
-        
-        .no-items-message {
             text-align: center;
-            padding: 2rem;
-            color: var(--gray);
+            padding-top: 100px;
         }
         
+        .success-content {
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .catalog-header h1 {
-                font-size: 2rem;
+            .hero-section {
+                padding: 30px 0;
             }
             
-            .products-container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .modal-content {
-                margin: 20% auto;
-            }
-            
-            .button-container {
-                flex-direction: column;
-            }
-            
-            .cart-modal .modal-content {
-                width: 90%;
+            .form-container {
+                margin: 20px;
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <div class="logo">
-                <span class="nx">NX</span> TECH
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="https://wa.me/+573180054426">Contacto</a></li>
-                    <li class="cart-icon" onclick="openCartModal()">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">0</span>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logotipo.png" alt="Logo" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="catalogLink">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
                     </li>
                 </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="catalog-header">
-        <h1>Catálogo de Productos</h1>
-        <p>Descubre nuestra selección de dispositivos tecnológicos de alta calidad a precios accesibles.</p>
-    </div>
-    
-    <div class="filter-bar">
-        <button class="filter-button active">Todos</button>
-        <button class="filter-button">Audio</button>
-        <button class="filter-button">Carga</button>
-        <button class="filter-button">Accesorios PC</button>
-        <button class="filter-button">Reloj</button>
-    </div>
-
-    <div class="products-container">
-        <!-- Product 1: TU330 Keyboard -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="tu330.png" alt="Teclado TU-330">
             </div>
-            <div class="product-details">
-                <div class="product-category">Accesorios PC</div>
-                <h3 class="product-title">TECLADO ESPECIAL TU-330</h3>
-                <div class="product-price">$60.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('TECLADO ESPECIAL TU-330', 60000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('TECLADO ESPECIAL TU-330', 60000, 'tu330.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
+        </div>
+    </nav>
+
+    <!-- Catalog Section -->
+    <section id="catalogSection">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="container">
+                <h1>Catálogo de Productos Tecnológicos</h1>
+                <p class="lead">Descubre lo último en tecnología a los mejores precios</p>
             </div>
         </div>
 
-        <!-- Product 2: Wit Keyboard and Mouse -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="wit.png" alt="Kit Teclado y Mouse Wit">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Accesorios PC</div>
-                <h3 class="product-title">KIT TECLADO Y MOUSE WIT</h3>
-                <div class="product-price">$63.500</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('KIT TECLADO Y MOUSE WIT', 63500)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('KIT TECLADO Y MOUSE WIT', 63500, 'wit.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+        <!-- Category Filter -->
+        <div class="container">
+            <div class="category-filter text-center">
+                <h3 class="mb-3">Categorías</h3>
+                <div>
+                    <button class="btn category-btn active" data-category="all">Todos</button>
+                    <button class="btn category-btn" data-category="accesorios">Accesorios</button>
+                    <button class="btn category-btn" data-category="audio">Audio</button>
+                    <button class="btn category-btn" data-category="carga">Carga</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Product 3: Plugins Car Charger -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="plugins.png" alt="Cargador para Carro">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Carga</div>
-                <h3 class="product-title">CARGADOR PARA CARRO PLUGINS</h3>
-                <div class="product-price">$35.500</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('CARGADOR PARA CARRO PLUGINS', 35500)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('CARGADOR PARA CARRO PLUGINS', 35500, 'plugins.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
+            <!-- Products Grid -->
+            <div class="row" id="productsContainer">
+                <!-- Product items will be dynamically added here -->
             </div>
         </div>
+    </section>
 
-        <!-- Product 4: Ultrapods -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="ultrapods.png" alt="Adaptador USB-C">
+    <!-- Product Detail Section -->
+    <section id="productDetail" class="container my-5">
+        <div class="back-to-catalog">
+            <button class="btn btn-outline-dark" id="backToCatalog">
+                <i class="fas fa-arrow-left"></i> Volver al catálogo
+            </button>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <img src="" alt="Product Image" id="detailImage" class="img-fluid product-image-lg">
             </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">C ULTRAPODS</h3>
-                <div class="product-price">$60.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('C ULTRAPODS', 60000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('C ULTRAPODS', 60000, 'ultrapods.png')">
-                        <i class="fas fa-plus"></i>
+            <div class="col-md-6">
+                <div class="category-badge" id="detailCategory"></div>
+                <h2 id="detailTitle"></h2>
+                <div class="star-rating mb-2">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="ms-2">(4.5 - 120 reseñas)</span>
+                </div>
+                <p class="product-price mb-3" id="detailPrice"></p>
+                <p id="detailDescription"></p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" id="buyButton">
+                        <i class="fas fa-shopping-cart"></i> Comprar ahora
                     </button>
                 </div>
             </div>
         </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="product-specs">
+                    <h4>Especificaciones</h4>
+                    <div id="detailSpecs"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Product 5: Extra Bass Earbuds -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="EXTRA.png" alt="Auriculares Extra Bass">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AURICULARES CLK EXTRA BASS</h3>
-                <div class="product-price">$60.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AURICULARES CLK EXTRA BASS', 60000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES CLK EXTRA BASS', 60000, 'EXTRA.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+    <!-- Customer Form -->
+    <div id="customerForm">
+        <div class="form-container">
+            <h3 class="form-title">Complete sus datos para procesar su pedido</h3>
+            <form id="purchaseForm">
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="customerName" required>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su nombre completo.
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 6: iPods12 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="inpods12.png" alt="Auriculares iPods12">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AURICULARES IPODS12</h3>
-                <div class="product-price">$27.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AURICULARES IPODS12', 27000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES IPODS12', 27000, 'inpods12.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                <div class="mb-3">
+                    <label for="customerPhone" class="form-label">Número de teléfono</label>
+                    <input type="tel" class="form-control" id="customerPhone" required pattern="[0-9]{10}">
+                    <div class="invalid-feedback">
+                        Por favor ingrese un número de teléfono válido de 10 dígitos.
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 7: Mouse -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="mouse.png" alt="Mouse Inalámbrico">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Accesorios PC</div>
-                <h3 class="product-title">MOUSE INALÁMBRICO</h3>
-                <div class="product-price">$22.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('MOUSE INALÁMBRICO', 22000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('MOUSE INALÁMBRICO', 22000, 'mouse.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                <div class="mb-3">
+                    <label for="customerAddress" class="form-label">Dirección exacta</label>
+                    <textarea class="form-control" id="customerAddress" rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su dirección completa.
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 8: Screen Capture Device -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="Captura de pantalla 2025-03-04 181842-Photoroom.png" alt="Adaptador">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Accesorios PC</div>
-                <h3 class="product-title">Adaptador de Internet y Bluetooth</h3>
-                <div class="product-price">$50.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('Adaptador de Internet y Bluetooth', 50000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('Adaptador de Internet y Bluetooth', 50000, 'Captura de pantalla 2025-03-04 181842-Photoroom.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                <div class="mb-3">
+                    <label for="customerCity" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="customerCity" required>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su ciudad.
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 9: Reloj Smartwatch -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="relojk.png" alt="Reloj Inteligente">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Reloj</div>
-                <h3 class="product-title">SMARTWATCH</h3>
-                <div class="product-price">$130.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('SMARTWATCH', 130000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('SMARTWATCH', 130000, 'relojk.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                <div class="mb-3">
+                    <label for="customerZip" class="form-label">Código Postal</label>
+                    <input type="text" class="form-control" id="customerZip" required pattern="[0-9]{5}">
+                    <div class="invalid-feedback">
+                        Por favor ingrese un código postal válido de 5 dígitos.
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 10: Android Earphones -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="andoid-Photoroom.png" alt="Auriculares para Android">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AURICULARES PARA ANDROID</h3>
-                <div class="product-price">$10.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AURICULARES PARA ANDROID', 10000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES PARA ANDROID', 10000, 'andoid-Photoroom.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Continuar a WhatsApp</button>
+                    <button type="button" class="btn btn-outline-dark" id="cancelPurchase">Cancelar</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product 11: MI Charger -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="cargador-Photoroom.png" alt="Cargador Xiaomi">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Carga</div>
-                <h3 class="product-title">CARGADOR XIAOMI 67W MAX</h3>
-                <div class="product-price">$40.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('CARGADOR XIAOMI 67W MAX', 40000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('CARGADOR XIAOMI 67W MAX', 40000, 'cargador-Photoroom.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 12: iPhone Earphones -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="audio tipo iph-Photoroom.png" alt="Auriculares tipo iPhone">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AURICULARES TIPO IPHONE</h3>
-                <div class="product-price">$10.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AURICULARES TIPO IPHONE', 10000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AURICULARES TIPO IPHONE', 10000, 'audio tipo iph-Photoroom.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 13: AirPods Pro 2 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="IMG-14912675-Photoroom.png" alt="Auriculares Bluetooth">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AIRPODS PRO 2</h3>
-                <div class="product-price">$85.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AIRPODS PRO 2', 85000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AIRPODS PRO 2', 85000, 'IMG-14912675-Photoroom.png')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-                <!-- Product 15: AirPods 3 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://lotienes.co/cdn/shop/files/airpods-3-gen.png?v=1737563069&width=1000" alt="Auriculares Bluetooth">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">AIRPODS 3</h3>
-                <div class="product-price">$75.000</div>
-                <div class="product-features"></div>
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('AIRPODS 3', 75000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('AIRPODS 3', 75000, 'https://lotienes.co/cdn/shop/files/airpods-3-gen.png?v=1737563069&width=1000')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Product 14: JBL -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="jbl.jpg" alt="Parlante JBL">
-            </div>
-            <div class="product-details">
-                <div class="product-category">Audio</div>
-                <h3 class="product-title">Parlante JBL</h3>
-                <div class="product-price">$200.000</div>
-                <div class="product-features"></div>
-
-                <div class="button-container">
-                    <button class="buy-button" onclick="openBuyForm('Parlante JBL', 200000)">
-                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
-                    </button>
-                    <button class="add-to-cart-button" onclick="addToCart('Parlante JBL', 200000, 'jbl.jpg')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <a href="#" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-    
-    <!-- Buy Modal -->
-    <div id="buyModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeBuyForm()">&times;</span>
-            <h2 class="form-title">Formulario de Compra</h2>
-            <form id="buyForm">
-                <input type="hidden" id="productName" name="productName">
-                <input type="hidden" id="productPrice" name="productPrice">
-                
-                <div class="form-group">
-                    <label for="name" class="form-label">Nombre Completo</label>
-                    <input type="text" id="name" name="name" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone" class="form-label">Teléfono</label>
-                    <input type="tel" id="phone" name="phone" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="address" class="form-label">Dirección de Entrega</label>
-                    <input type="text" id="address" name="address" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="paymentMethod" class="form-label">Método de Pago</label>
-                    <select id="paymentMethod" name="paymentMethod" class="form-input" required>
-                        <option value="" disabled selected>Seleccione un método de pago</option>
-                        <option value="efectivo">Efectivo</option>
-                        <option value="transferencia">Transferencia Bancaria</option>
-                        <option value="nequi">Nequi</option>
-                        <option value="daviplata">Daviplata</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="submit-button">Confirmar Pedido</button>
             </form>
         </div>
     </div>
-    
-    <!-- Cart Modal -->
-    <div id="cartModal" class="modal cart-modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeCartModal()">&times;</span>
-            <h2 class="form-title">Carrito de Compras</h2>
-            <div id="cartItems" class="cart-items">
-                <!-- Cart items will be added here -->
-                <div class="no-items-message">
-                    <p>No hay productos en el carrito</p>
-                </div>
-            </div>
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">$0</span>
-            </div>
-            <div class="cart-buttons">
-                <button class="submit-button clear-cart-btn" onclick="clearCart()">Vaciar Carrito</button>
-                <button class="submit-button" onclick="checkout()">Proceder al Pago</button>
-            </div>
+
+    <!-- Success Message -->
+    <div id="successMessage">
+        <div class="success-content">
+            <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
+            <h3>¡Datos recibidos correctamente!</h3>
+            <p>Redirigiendo a WhatsApp en <span id="countdown">3</span> segundos...</p>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2025 NX TECH. Todos los derechos reservados.</p>
-    </footer>
-    
-    <script>
-        // Cart functionality
-        let cart = [];
-        
-        function addToCart(name, price, image) {
-            // Check if product is already in cart
-            const existingItem = cart.find(item => item.name === name);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    name: name,
-                    price: price,
-                    image: image,
-                    quantity: 1
-                });
-            }
-            
-            updateCartCount();
-            showAddedToCartMessage(name);
-        }
-        
-        function showAddedToCartMessage(productName) {
-            alert(`${productName} ha sido añadido al carrito.`);
-        }
-        
-        function updateCartCount() {
-            const cartCount = document.querySelector('.cart-count');
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartCount.textContent = totalItems;
-        }
-        
-        function updateCartModal() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const cartTotalElement = document.getElementById('cartTotal');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div class="no-items-message">
-                        <p>No hay productos en el carrito</p>
-                    </div>
-                `;
-                cartTotalElement.textContent = '$0';
-                return;
-            }
-            
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
-            
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                
-                const itemElement = document.createElement('div');
-                itemElement.className = 'cart-item';
-                itemElement.innerHTML = `
-                    <div class="cart-item-details">
-                        <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">$${item.price.toLocaleString()}</div>
-                    </div>
-                    <div class="cart-item-quantity">
-                        <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
-                        <button class="remove-item-btn" onclick="removeItem(${index})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                
-                cartItemsContainer.appendChild(itemElement);
-            });
-            
-            cartTotalElement.textContent = `$${total.toLocaleString()}`;
-        }
-        
-        function increaseQuantity(index) {
-            cart[index].quantity += 1;
-            updateCartModal();
-            updateCartCount();
-        }
-        
-        function decreaseQuantity(index) {
-            if (cart[index].quantity > 1) {
-                cart[index].quantity -= 1;
-            } else {
-                removeItem(index);
-            }
-            updateCartModal();
-            updateCartCount();
-        }
-        
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCartModal();
-            updateCartCount();
-        }
-        
-        function clearCart() {
-            cart = [];
-            updateCartModal();
-            updateCartCount();
-        }
-        
-        function checkout() {
-            if (cart.length === 0) {
-                alert('El carrito está vacío');
-                return;
-            }
-            
-            // Get the total
-            let total = 0;
-            cart.forEach(item => {
-                total += item.price * item.quantity;
-            });
-            
-            // Create a product list for WhatsApp
-            let productList = '';
-            cart.forEach(item => {
-                productList += `*${item.name}* - ${item.quantity} x $${item.price.toLocaleString()} = $${(item.price * item.quantity).toLocaleString()}\n`;
-            });
-            
-            // Create WhatsApp message
-            const message = `¡Hola! Quiero realizar el siguiente pedido:\n\n${productList}\n*Total: $${total.toLocaleString()}*`;
-            
-            // Encode the message for a URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Open WhatsApp with the message
-            window.open(`https://wa.me/+573180054426?text=${encodedMessage}`, '_blank');
-        }
-        
-        // Modal functionality
-        function openBuyForm(productName, productPrice) {
-            const modal = document.getElementById('buyModal');
-            document.getElementById('productName').value = productName;
-            document.getElementById('productPrice').value = productPrice;
-            modal.style.display = 'block';
-        }
-        
-        function closeBuyForm() {
-            const modal = document.getElementById('buyModal');
-            modal.style.display = 'none';
-        }
-        
-        function openCartModal() {
-            const modal = document.getElementById('cartModal');
-            updateCartModal();
-            modal.style.display = 'block';
-        }
-        
-        function closeCartModal() {
-            const modal = document.getElementById('cartModal');
-            modal.style.display = 'none';
-        }
-        
-        // Close modal when clicking outside the modal content
-        window.onclick = function(event) {
-            const buyModal = document.getElementById('buyModal');
-            const cartModal = document.getElementById('cartModal');
-            
-            if (event.target === buyModal) {
-                buyModal.style.display = 'none';
-            }
-            
-            if (event.target === cartModal) {
-                cartModal.style.display = 'none';
-            }
-        };
-        
-        // Filter functionality
-        const filterButtons = document.querySelectorAll('.filter-button');
-        const productCards = document.querySelectorAll('.product-card');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                const filter = button.textContent.trim();
-                
-                // Filter products
-                productCards.forEach(card => {
-                    const category = card.querySelector('.product-category').textContent;
-                    
-                    if (filter === 'Todos' || category === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-        
-        // Form submission
-        document.getElementById('buyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const productName = document.getElementById('productName').value;
-            const productPrice = document.getElementById('productPrice').value;
-            
-            // Create WhatsApp message
-            const message = `¡Hola! Me interesa comprar:\n\n*Producto:* ${productName}\n*Precio:* $${parseInt(productPrice).toLocaleString()}\n\n*Datos de envío:*\n*Nombre:* ${name}\n*Teléfono:* ${phone}\n*Dirección:* ${address}\n*Método de pago:* ${paymentMethod}`;
-            
-            // Encode the message for a URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Open WhatsApp with the message
-            window.open(`https://wa.me/+573180054426?text=${encodedMessage}`, '_blank');
-            
-            // Close the modal
-            closeBuyForm();
-        });
-        
-        // Back to top functionality
-        const backToTopButton = document.querySelector('.back-to-top');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.style.opacity = '1';
-            } else {
-                backToTopButton.style.opacity = '0';
-            }
-        });
-        
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        // Función para ordenar productos aleatoriamente
-function shuffleProducts() {
-    const productsContainer = document.querySelector('.products-container');
-    const productCards = Array.from(productsContainer.querySelectorAll('.product-card'));
-    
-    // Mezclar array de productos
-    for (let i = productCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [productCards[i], productCards[j]] = [productCards[j], productCards[i]];
-    }
-    
-    // Vaciar el contenedor
-    productsContainer.innerHTML = '';
-    
-    // Agregar productos en el nuevo orden
-    productCards.forEach(card => {
-        productsContainer.appendChild(card);
-    });
-}
 
-// Ejecutar cuando la página se cargue
-document.addEventListener('DOMContentLoaded', shuffleProducts);
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <img src="logo.png" alt="Logo" class="logo mb-3">
+                    <p>Ofrecemos lo último en tecnología con los mejores precios del mercado. Nuestra prioridad es tu satisfacción.</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5>Enlaces rápidos</h5>
+                    <div class="footer-links">
+                        <a href="#">Inicio</a>
+                        <a href="#">Catálogo</a>
+                        <a href="#">Nosotros</a>
+                        <a href="#">Contacto</a>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 NEXTGENS Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample product data
+                const products = [
+            {
+                id: 1,
+                name: "Auriculares para Android",
+                price: "$10.000",
+                category: "audio",
+                image: "andoid-Photoroom.png",
+                description: "Auriculares con conexión tipo jack 3.5 mm, compatibles con dispositivos Android.",
+                specs: `
+                <ul>
+                    <li><strong>Conexión:</strong> Jack 3.5 mm</li>
+                    <li><strong>Micrófono:</strong> Incluido</li>
+                    <li><strong>Diseño:</strong> In-ear</li>
+                </ul>
+                `
+            },
+            {
+                id: 2,
+                name: "Parlante JBL",
+                price: "$200.000",
+                category: "audio",
+                image: "jbl.jpg",
+                description: "Parlante portátil JBL con sonido potente, diseño resistente y conexión Bluetooth.",
+                specs: `
+                <ul>
+                    <li><strong>Conexión:</strong> Bluetooth</li>
+                    <li><strong>Duración batería:</strong> Hasta 12 horas</li>
+                    <li><strong>Resistencia:</strong> A salpicaduras</li>
+                </ul>
+                `
+            },
+            {
+                id: 3,
+                name: "Adaptador de Internet y Bluetooth",
+                price: "$50.000",
+                category: "accesorios",
+                image: "Captura de pantalla 2025-03-04 181842-Photoroom.png",
+                description: "Adaptador doble para conexión a internet por cable y Bluetooth.",
+                specs: `
+                <ul>
+                    <li><strong>Función:</strong> Internet por cable + Bluetooth</li>
+                    <li><strong>Compatibilidad:</strong> Windows y macOS</li>
+                </ul>
+                `
+            },
+            {
+                id: 4,
+                name: "Auriculares iPods12",
+                price: "$27.000",
+                category: "audio",
+                image: "inpods12.png",
+                description: "Auriculares inalámbricos tipo iPods12, ideales para uso diario.",
+                specs: `
+                <ul>
+                    <li><strong>Conexión:</strong> Bluetooth</li>
+                    <li><strong>Autonomía:</strong> Hasta 3 horas</li>
+                </ul>
+                `
+            },
+            {
+                id: 5,
+                name: "AirPods Pro 2",
+                price: "$85.000",
+                category: "audio",
+                image: "IMG-14912675-Photoroom.png",
+                description: "Los nuevos AirPods Pro 2 ofrecen una experiencia de audio envolvente con cancelación activa de ruido y modo transparencia. Con un diseño ergonómico y resistencia al agua, son perfectos para el día a día.",
+                specs: `
+                <ul>
+                    <li><strong>Diseño:</strong> In-ear con almohadillas de silicona (4 tamaños)</li>
+                    <li><strong>Audio:</strong> Cancelación activa de ruido y modo ambiente adaptativo</li>
+                    <li><strong>Chip:</strong> H2 para audio mejorado y ANC más eficiente</li>
+                    <li><strong>Micrófonos:</strong> Orientados hacia dentro y fuera para mejor ANC</li>
+                    <li><strong>Controles:</strong> Sensor de presión + control de volumen deslizando</li>
+                    <li><strong>Batería:</strong> Hasta 6 horas con ANC (30 horas con estuche)</li>
+                    <li><strong>Carga:</strong> Estuche MagSafe con localización mediante Find My</li>
+                </ul>
+                `
+            },
+            {
+                id: 6,
+                name: "Smartwatch",
+                price: "$130.000",
+                category: "relojes",
+                image: "relojk.png",
+                description: "Smartwatch multifunción con monitor de ritmo cardíaco, contador de pasos y más.",
+                specs: `
+                <ul>
+                    <li><strong>Funciones:</strong> Ritmo cardíaco, pasos, notificaciones</li>
+                    <li><strong>Pantalla:</strong> Táctil a color</li>
+                    <li><strong>Conectividad:</strong> Bluetooth</li>
+                </ul>
+                `
+            },
+            {
+                id: 7,
+                name: "Teclado Especial TU-330",
+                price: "$60.000",
+                category: "accesorios",
+                image: "tu330.png",
+                description: "Teclado especial TU-330 con teclas suaves, ideal para oficina y hogar.",
+                specs: `
+                <ul>
+                    <li><strong>Tipo:</strong> Membrana</li>
+                    <li><strong>Conexión:</strong> USB</li>
+                </ul>
+                `
+            },
+            {
+                id: 8,
+                name: "Mouse inalámbrico",
+                price: "$22.000",
+                category: "accesorios",
+                image: "mouse.png",
+                description: "Mouse ergonómico inalámbrico con receptor USB incluido.",
+                specs: `
+                <ul>
+                    <li><strong>Tipo:</strong> Óptico</li>
+                    <li><strong>Conexión:</strong> USB inalámbrico</li>
+                </ul>
+                `
+            },
+            {
+                id: 9,
+                name: "Cargador para carro PlugIns",
+                price: "$35.500",
+                category: "carga",
+                image: "plugins.png",
+                description: "Cargador de auto con dos puertos USB para recargar dispositivos en carretera.",
+                specs: `
+                <ul>
+                    <li><strong>Puertos:</strong> 2 USB</li>
+                    <li><strong>Voltaje:</strong> 12V</li>
+                </ul>
+                `
+            },
+            {
+                id: 10,
+                name: "AirPods 3",
+                price: "$75.000",
+                category: "audio",
+                image: "https://lotienes.co/cdn/shop/files/airpods-3-gen.png?v=1737563069&width=1000",
+                description: "AirPods 3 con diseño ergonómico y sonido envolvente.",
+                specs: `
+                <ul>
+                    <li><strong>Conexión:</strong> Bluetooth</li>
+                    <li><strong>Autonomía:</strong> Hasta 5 horas</li>
+                </ul>
+                `
+            },
+            {
+                id: 11,
+                name: "Kit teclado y mouse WIT",
+                price: "$63.500",
+                category: "accesorios",
+                image: "wit.png",
+                description: "Combo de teclado y mouse ideal para oficinas, con conexión USB.",
+                specs: `
+                <ul>
+                    <li><strong>Tipo:</strong> Membrana (teclado) y óptico (mouse)</li>
+                    <li><strong>Conexión:</strong> USB</li>
+                </ul>
+                `
+            },
+            {
+                id: 12,
+                name: "Auriculares tipo iPhone",
+                price: "$10.000",
+                category: "audio",
+                image: "audio tipo iph-Photoroom.png",
+                description: "Auriculares con diseño tipo iPhone y calidad de audio clara.",
+                specs: `
+                <ul>
+                    <li><strong>Diseño:</strong> EarPods con micrófono</li>
+                    <li><strong>Conexión:</strong> Lightning o jack</li>
+                </ul>
+                `
+            },
+
+            {
+                id: 13,
+                name: "Cargador Xiaomi 67W Max",
+                price: "$40.000",
+                category: "carga",
+                image: "cargador-Photoroom.png",
+                description: "Cargador Xiaomi original de 67W para carga rápida.",
+                specs: `
+                <ul>
+                    <li><strong>Potencia:</strong> 67W</li>
+                    <li><strong>Compatibilidad:</strong> Dispositivos Xiaomi y más</li>
+                </ul>
+                `
+            },
+            {
+                id: 14,
+                name: "Auriculares QKZ Extra Bass",
+                price: "$60.000",
+                category: "audio",
+                image: "extra.png",
+                description: "Auriculares QKZ con bajos potentes y diseño ergonómico.",
+                specs: `
+                <ul>
+                    <li><strong>Sonido:</strong> Graves mejorados</li>
+                    <li><strong>Conexión:</strong> Jack 3.5 mm</li>
+                </ul>
+                `
+            },
+            {
+                id: 15,
+                name: "ultrapods",
+                price: "$60.000",
+                category: "audio",
+                image: "extra.png",
+                description: "Auriculares BASS con bajos potentes y diseño ergonómico.",
+                specs: `
+                <ul>
+                    <li><strong>Sonido:</strong> Graves mejorados</li>
+                    <li><strong>Conexión:</strong> Jack 3.5 mm</li>
+                </ul>
+                `
+            }
+        ];
+
+
+        // Variables to track the current product
+        let currentProduct = null;
+
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load all products
+            loadProducts('all');
+            
+            // Category filter buttons
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Filter products by category
+                    loadProducts(this.getAttribute('data-category'));
+                });
+            });
+            
+            // Back to catalog button
+            document.getElementById('backToCatalog').addEventListener('click', function() {
+                showCatalog();
+            });
+            
+            // Catalog link in navbar
+            document.getElementById('catalogLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                showCatalog();
+            });
+            
+            // Buy button
+            document.getElementById('buyButton').addEventListener('click', function() {
+                document.getElementById('customerForm').style.display = 'block';
+            });
+            
+            // Cancel purchase button
+            document.getElementById('cancelPurchase').addEventListener('click', function() {
+                document.getElementById('customerForm').style.display = 'none';
+            });
+            
+            // Handle form submission
+            document.getElementById('purchaseForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Form validation
+                if (this.checkValidity()) {
+                    // Hide form and show success message
+                    document.getElementById('customerForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Countdown to WhatsApp redirect
+                    let count = 3;
+                    const countdownElement = document.getElementById('countdown');
+                    
+                    const countdownInterval = setInterval(function() {
+                        count--;
+                        countdownElement.textContent = count;
+                        
+                        if (count <= 0) {
+                            clearInterval(countdownInterval);
+                            // Redirect to WhatsApp
+                            const customerName = document.getElementById('customerName').value;
+                            const customerPhone = document.getElementById('customerPhone').value;
+                            const customerAddress = document.getElementById('customerAddress').value;
+                            const customerCity = document.getElementById('customerCity').value;
+                            const customerZip = document.getElementById('customerZip').value;
+                            
+                            const message = encodeURIComponent(
+                                `¡Hola! Me interesa comprar ${currentProduct.name}.\n\n` +
+                                `Mis datos:\n` +
+                                `Nombre: ${customerName}\n` +
+                                `Teléfono: ${customerPhone}\n` +
+                                `Dirección: ${customerAddress}\n` +
+                                `Ciudad: ${customerCity}\n` +
+                                `Código Postal: ${customerZip}`
+                            );
+                            
+                            window.location.href = `https://wa.me/573180054426?text=${message}`;
+                        }
+                    }, 1000);
+                } else {
+                    // If form is invalid, trigger the browser's validation UI
+                    this.classList.add('was-validated');
+                }
+            });
+        });
+        
+        // Function to load products based on category
+        function loadProducts(category) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            
+            const filteredProducts = category === 'all' 
+                ? products 
+                : products.filter(product => product.category === category);
+            
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'col-md-4 col-lg-3 col-sm-6';
+                productCard.innerHTML = `
+                    <div class="card h-100">
+                        <span class="category-badge">${getCategoryName(product.category)}</span>
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text text-primary fw-bold">${product.price}</p>
+                        </div>
+                        <div class="card-footer border-0 bg-white">
+                            <button class="btn btn-primary w-100 view-product" data-id="${product.id}">Ver detalles</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productCard);
+                
+                // Add event listener to the button
+                const viewButton = productCard.querySelector('.view-product');
+                viewButton.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    showProductDetail(productId);
+                });
+            });
+        }
+        
+        // Function to show product detail
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            currentProduct = product;
+            
+            // Update detail page content
+            document.getElementById('detailImage').src = product.image;
+            document.getElementById('detailTitle').textContent = product.name;
+            document.getElementById('detailPrice').textContent = product.price;
+            document.getElementById('detailDescription').textContent = product.description;
+            document.getElementById('detailCategory').textContent = getCategoryName(product.category);
+            document.getElementById('detailSpecs').innerHTML = product.specs;
+            
+            // Hide catalog and show detail
+            document.getElementById('catalogSection').style.display = 'none';
+            document.getElementById('productDetail').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Function to show catalog
+        function showCatalog() {
+            document.getElementById('catalogSection').style.display = 'block';
+            document.getElementById('productDetail').style.display = 'none';
+            document.getElementById('customerForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        // Helper function to get readable category name
+        function getCategoryName(category) {
+            const categoryNames = {
+                'smartphones': 'Smartphones',
+                'laptops': 'Laptops',
+                'accessories': 'Accesorios',
+                'audio': 'Audio',
+                'gaming': 'Gaming'
+            };
+            return categoryNames[category] || category;
+        }
+        // Function to shuffle products array
+        function shuffleProducts(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Shuffle products before displaying them
+        shuffleProducts(products);
     </script>
 </body>
 </html>
