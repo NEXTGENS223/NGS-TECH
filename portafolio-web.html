@@ -260,7 +260,7 @@
                         <a class="nav-link" href="https://wa.me/573180054426?text=Hola quiero comprar.">WhatsApp</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"></a>
+                        <a class="nav-link" id="catalogLink" href="#">Catálogo</a>
                     </li>
                 </ul>
             </div>
@@ -429,7 +429,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Sample product data
-                const products = [
+        const products = [
             {
                 id: 1,
                 name: "Auriculares para Android",
@@ -684,8 +684,9 @@
                 showCatalog();
             });
 
-            // Buy button
+            // Buy button - Este es el botón que presenta problemas
             document.getElementById('buyButton').addEventListener('click', function() {
+                console.log("Buy button clicked"); // Para verificar que el evento se activa
                 document.getElementById('customerForm').style.display = 'block';
             });
 
@@ -714,6 +715,7 @@
 
                         if (count <= 0) {
                             clearInterval(countdownInterval);
+                           
                             // Redirect to WhatsApp
                             const customerName = document.getElementById('customerName').value;
                             const customerPhone = document.getElementById('customerPhone').value;
@@ -730,7 +732,7 @@
                                 `Ciudad: ${customerCity}\n` +
                                 `Código Postal: ${customerZip}`
                             );
-
+    
                             window.location.href = `https://wa.me/573180054426?text=${message}`;
                         }
                     }, 1000);
@@ -791,44 +793,29 @@
             document.getElementById('detailDescription').textContent = product.description;
             document.getElementById('detailCategory').textContent = getCategoryName(product.category);
             document.getElementById('detailSpecs').innerHTML = product.specs;
-
-            // Hide catalog and show detail
+            // Hide catalog and show product detail
             document.getElementById('catalogSection').style.display = 'none';
             document.getElementById('productDetail').style.display = 'block';
-
-            // Scroll to top
-            window.scrollTo(0, 0);
         }
 
         // Function to show catalog
         function showCatalog() {
-            document.getElementById('catalogSection').style.display = 'block';
             document.getElementById('productDetail').style.display = 'none';
+            document.getElementById('catalogSection').style.display = 'block';
             document.getElementById('customerForm').style.display = 'none';
             document.getElementById('successMessage').style.display = 'none';
         }
 
-        // Helper function to get readable category name
+        // Function to get readable category name
         function getCategoryName(category) {
-            const categoryNames = {
-                'smartphones': 'Smartphones',
-                'laptops': 'Laptops',
-                'accessories': 'Accesorios',
+            const categories = {
                 'audio': 'Audio',
-                'gaming': 'Gaming'
+                'accesorios': 'Accesorios',
+                'carga': 'Carga',
+                'relojes': 'Relojes'
             };
-            return categoryNames[category] || category;
+            return categories[category] || category;
         }
-        // Function to shuffle products array
-        function shuffleProducts(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        // Shuffle products before displaying them
-        shuffleProducts(products);
     </script>
 </body>
 </html>
