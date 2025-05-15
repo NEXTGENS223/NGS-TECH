@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Servicios Profesionales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style id="app-style">
+        :root {
+            --primary-blue: #1d4ed8;
+            --light-blue: #3b82f6;
+            --off-white: #f8fafc;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #334155;
+        }
+        
+        .hero-section {
+            background: linear-gradient(120deg, var(--off-white), #e0f2fe);
+            min-height: 90vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .parallax-element {
+            position: absolute;
+            opacity: 0.8;
+            transition: transform 0.5s ease-out;
+        }
+        
+        .parallax-1 {
+            top: 20%;
+            left: 10%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .parallax-2 {
+            bottom: 30%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            color: #334155;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 50%;
+        }
+        
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+        
+        .nav-link.active::after {
+            width: 50%;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .spinner {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .success-message {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* ↑ NEW: Floating WhatsApp button styles */
+        .whatsapp-float {
+          position: fixed;
+          bottom: 1.5rem;
+          right: 1.5rem;
+          width: 3.5rem;
+          height: 3.5rem;
+          background-color: var(--primary-blue);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          transition: background-color 0.3s ease, transform 0.2s ease;
+          z-index: 1000;
+          text-decoration: none;
+        }
+        .whatsapp-float:hover {
+          background-color: var(--light-blue);
+          transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación fija -->
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3">
+            <nav class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-700">
+                    <span>NX<span class="text-blue-500">WEBSITE</span></span>
+                </div>
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección Hero (Inicio) -->
+    <section id="inicio" class="hero-section pt-24">
+        <div class="container mx-auto px-4 py-20 flex flex-col md:flex-row items-center justify-between">
+            <div class="hero-text md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-5xl font-bold mb-6 animate__animated animate__fadeInUp">Soluciones profesionales para tu negocio</h1>
+                <p class="text-xl mb-8 animate__animated animate__fadeInUp animate__delay-1s">Ofrecemos servicios de alta calidad adaptados a tus necesidades específicas. Nuestro equipo de expertos está listo para ayudarte a alcanzar tus objetivos.</p>
+                <a href="#servicios" class="btn-primary animate__animated animate__fadeInUp animate__delay-2s">
+                    Descubre nuestros servicios
+                </a>
+            </div>
+            <div class="md:w-1/2 relative">
+                <img src="royal1.png" alt="Servicios Profesionales" class="w-full max-w-lg mx-auto animate__animated animate__fadeIn animate__delay-2s">
+            </div>
+        </div>
+        <div class="parallax-element parallax-1"></div>
+        <div class="parallax-element parallax-2"></div>
+    </section>
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 fade-in">Nuestros Servicios</h2>
+            <p class="text-xl text-center mb-16 text-gray-600 max-w-3xl mx-auto fade-in">Ofrecemos una amplia gama de servicios profesionales diseñados para ayudar a tu negocio a crecer y destacarse en el mercado.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+                <!-- Los servicios se cargarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 fade-in">Contáctanos</h2>
+            <p class="text-xl text-center mb-16 text-gray-600 max-w-3xl mx-auto fade-in">¿Tienes alguna pregunta o estás interesado en nuestros servicios? Completa el formulario y nos pondremos en contacto contigo lo antes posible.</p>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-lg shadow-lg p-8 fade-in">
+                    <form id="contact-form">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 mb-2">Nombre</label>
+                            <input type="text" id="name" name="name" class="form-input" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 mb-2">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" class="form-input" required></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn-primary w-full">
+                                <span class="button-text">Enviar mensaje</span>
+                                <div class="spinner mx-auto"></div>
+                            </button>
+                            
+                            <div class="success-message mt-4 p-4 bg-green-100 text-green-700 rounded-md">
+                                <p class="font-medium">¡Mensaje enviado con éxito!</p>
+                                <p class="mt-2">Nos pondremos en contacto contigo pronto.</p>
+                                <button type="button" id="reset-form" class="mt-4 text-blue-600 hover:underline">Enviar otro mensaje</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">NX<span class="text-blue-400">WEBSITE</span></h3>
+                    <p class="text-gray-400">Soluciones profesionales para tu negocio</p>
+                </div>
+                
+                <div class="mb-6 md:mb-0">
+                    <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                    <div class="flex">
+                        <a href="javascript:void(0)" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 NXWEBSITE. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ↑ NEW: Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/573180054426"
+      target="_blank"
+      rel="noopener"
+      class="whatsapp-float"
+      aria-label="Chatea con nosotros por WhatsApp"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script id="app-script">
+        // Datos simulados para los servicios
+        const servicios = [
+            {
+                id: 1,
+                titulo: "Consultoría Estratégica",
+                descripcion: "Desarrollo de planes estratégicos para optimizar el crecimiento de tu negocio y maximizar el retorno de la inversión.",
+                icono: "fa-chart-line"
+            },
+            {
+                id: 2,
+                titulo: "Desarrollo Web",
+                descripcion: "Creación de sitios web modernos, responsivos y optimizados para buscadores que representan eficazmente tu marca.",
+                icono: "fa-code"
+            },
+            {
+                id: 3,
+                titulo: "Marketing Digital",
+                descripcion: "Estrategias personalizadas de marketing online para aumentar tu visibilidad, generar leads y convertir clientes.",
+                icono: "fa-bullhorn"
+            },
+            {
+                id: 4,
+                titulo: "Gestión de Proyectos",
+                descripcion: "Coordinación eficiente de recursos, tiempo y presupuesto para llevar tus proyectos al éxito.",
+                icono: "fa-tasks"
+            },
+            {
+                id: 5,
+                titulo: "Diseño Gráfico",
+                descripcion: "Creación de identidad visual atractiva que comunica efectivamente los valores de tu marca.",
+                icono: "fa-palette"
+            },
+            {
+                id: 6,
+                titulo: "Soporte Técnico",
+                descripcion: "Asistencia técnica especializada para mantener tus sistemas funcionando de manera óptima.",
+                icono: "fa-headset"
+            }
+        ];
+
+        // Cargar los servicios dinámicamente
+        function cargarServicios() {
+            const gridContainer = document.getElementById('services-grid');
+            servicios.forEach(servicio => {
+                const card = document.createElement('div');
+                card.className = 'service-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 fade-in';
+                card.innerHTML = `
+                    <div class="inline-block p-4 mb-4 bg-blue-100 rounded-full">
+                        <i class="fas ${servicio.icono} text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">${servicio.titulo}</h3>
+                    <p class="text-gray-600 mb-6">${servicio.descripcion}</p>
+                    <a href="javascript:void(0)" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">Saber más <i class="fas fa-arrow-right ml-1"></i></a>
+                `;
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // Gestionar el formulario de contacto
+        function inicializarFormulario() {
+            const formulario = document.getElementById('contact-form');
+            const botonReset = document.getElementById('reset-form');
+            const botonTexto = document.querySelector('.button-text');
+            const spinner = document.querySelector('.spinner');
+            const mensajeExito = document.querySelector('.success-message');
+            
+            formulario.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Mostrar estado de carga
+                botonTexto.style.display = 'none';
+                spinner.style.display = 'block';
+                
+                // Recoger datos del formulario
+                const name = encodeURIComponent(formulario.name.value);
+                const email = encodeURIComponent(formulario.email.value);
+                const message = encodeURIComponent(formulario.message.value);
+                
+                // Simular envío
+                setTimeout(function() {
+                    // Ocultar estado de carga
+                    spinner.style.display = 'none';
+
+                    // Abrir cliente de correo con mailto
+                    const mailtoLink = 
+                      'mailto:destinatario@example.com' +
+                      '?subject=Nuevo%20Mensaje%20desde%20NXWEBSITE' +
+                      '&body=Nombre:%20' + name +
+                      '%0AEmail:%20' + email +
+                      '%0AMensaje:%20' + message;
+                    window.location.href = mailtoLink;
+                }, 2000);
+            });
+            
+            botonReset.addEventListener('click', function() {
+                // Restablecer formulario
+                formulario.reset();
+                mensajeExito.style.display = 'none';
+                botonTexto.style.display = 'block';
+            });
+        }
+
+        // Efectos de parallax en la sección hero
+        function inicializarParallax() {
+            window.addEventListener('mousemove', function(e) {
+                const parallaxElements = document.querySelectorAll('.parallax-element');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                parallaxElements.forEach(element => {
+                    const elementIndex = element.classList.contains('parallax-1') ? 1 : 2;
+                    const speed = elementIndex * 20;
+                    
+                    const x = (0.5 - mouseX) * speed;
+                    const y = (0.5 - mouseY) * speed;
+                    
+                    element.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        }
+
+        // Navegación suave al hacer clic en los enlaces del menú
+        function inicializarNavegacion() {
+            const enlaces = document.querySelectorAll('.nav-link, .btn-primary[href^="#"]');
+            enlaces.forEach(enlace => {
+                enlace.addEventListener('click', function(e) {
+                    // no hacemos e.preventDefault() aquí
+                    // el navegador aplicará scroll-behavior: smooth automáticamente
+                    // sólo actualizamos la clase .active si fuese un nav-link
+                    if (enlace.classList.contains('nav-link')) {
+                        enlaces.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Actualizar enlace activo en scroll
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                
+                // Obtener secciones
+                const inicio = document.getElementById('inicio');
+                const servicios = document.getElementById('servicios');
+                const contacto = document.getElementById('contacto');
+                
+                // Obtener posiciones
+                const inicioTop = inicio.offsetTop;
+                const serviciosTop = servicios.offsetTop - 100;
+                const contactoTop = contacto.offsetTop - 100;
+                
+                // Actualizar enlaces activos basado en la posición de scroll
+                enlaces.forEach(enlace => enlace.classList.remove('active'));
+                
+                if (scrollPosition >= contactoTop) {
+                    document.querySelector('a[href="#contacto"]').classList.add('active');
+                } else if (scrollPosition >= serviciosTop) {
+                    document.querySelector('a[href="#servicios"]').classList.add('active');
+                } else {
+                    document.querySelector('a[href="#inicio"]').classList.add('active');
+                }
+            });
+        }
+
+        // Animación de elementos al hacer scroll
+        function inicializarAnimacionesScroll() {
+            const elementosAnimados = document.querySelectorAll('.fade-in');
+            
+            const observador = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            elementosAnimados.forEach(elemento => {
+                observador.observe(elemento);
+            });
+        }
+
+        // Inicializar todas las funcionalidades cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarServicios();
+            inicializarFormulario();
+            inicializarParallax();
+            inicializarNavegacion();
+            inicializarAnimacionesScroll();
+        });
+        
+    </script>
+</body>
+</html>
