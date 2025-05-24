@@ -221,6 +221,31 @@
             transform: skewX(-30deg);
             animation: shine 3s infinite;
         }
+        /* Botón flotante de WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 2.5rem;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    color: #fff;
+    text-decoration: none;
+}
+
 
         @keyframes shine {
             to {
@@ -380,95 +405,6 @@
         </div>
     </section>
 
-    <!-- Customer Form -->
-    <div id="customerForm">
-        <div class="form-container">
-            <h3 class="form-title">Complete sus datos para procesar su pedido</h3>
-            <form id="purchaseForm">
-                <div class="mb-3">
-                    <label for="customerName" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="customerName" required>
-                    <div class="invalid-feedback">
-                        Por favor ingrese su nombre completo.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="customerPhone" class="form-label">Número de teléfono</label>
-                    <input type="tel" class="form-control" id="customerPhone" required pattern="[0-9]{10}">
-                    <div class="invalid-feedback">
-                        Por favor ingrese un número de teléfono válido de 10 dígitos.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="customerAddress" class="form-label">Dirección exacta</label>
-                    <textarea class="form-control" id="customerAddress" rows="3" required></textarea>
-                    <div class="invalid-feedback">
-                        Por favor ingrese su dirección completa.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="customerCity" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" id="customerCity" required>
-                    <div class="invalid-feedback">
-                        Por favor ingrese su ciudad.
-                    </div>
-
-                </div>
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Continuar a WhatsApp</button>
-                    <button type="button" class="btn btn-outline-dark" id="cancelPurchase">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Success Message -->
-    <div id="successMessage">
-        <div class="success-content">
-            <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
-            <h3>¡Datos recibidos correctamente!</h3>
-            <p>Redirigiendo a WhatsApp en <span id="countdown">3</span> segundos...</p>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <img src="logo.png" alt="Logo" class="logo mb-3">
-                    <p>Ofrecemos lo último en tecnología con los mejores precios del mercado. Nuestra prioridad es tu satisfacción.</p>
-                </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h5>Enlaces rápidos</h5>
-                    <div class="footer-links">
-                        <a href="#">Inicio</a>
-                        <a href="#">Catálogo</a>
-                        <a href="#">Nosotros</a>
-                        <a href="#">Contacto</a>
-                    </div>
-                </div>
-
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <p>&copy; 2025 NEXTGENS Todos los derechos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- ↑ NEW: Floating WhatsApp Button -->
-    <a
-      href="https://wa.me/573180054426"
-      target="_blank"
-      rel="noopener"
-      class="whatsapp-float"
-      aria-label="Chatea con nosotros por WhatsApp"
-    >
-      <i class="fab fa-whatsapp"></i>
-    </a>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -778,45 +714,44 @@
             document.getElementById('purchaseForm').addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                // Form validation
                 if (this.checkValidity()) {
-                    // Hide form and show success message
+                    // Obtén los datos del formulario
+                    const customerName = document.getElementById('customerName').value;
+                    const customerPhone = document.getElementById('customerPhone').value;
+                    const customerAddress = document.getElementById('customerAddress').value;
+                    const customerCity = document.getElementById('customerCity').value;
+
+                    // Oculta el formulario y muestra el mensaje de éxito
                     document.getElementById('customerForm').style.display = 'none';
                     document.getElementById('successMessage').style.display = 'block';
 
-                    // Countdown to WhatsApp redirect
+                    // Cuenta regresiva y redirección a WhatsApp
                     let count = 3;
-                    const countdownElement = document.getElementById('countdown');
-
+                    document.getElementById('countdown').textContent = count;
                     const countdownInterval = setInterval(function() {
                         count--;
-                        countdownElement.textContent = count;
-
+                        document.getElementById('countdown').textContent = count;
                         if (count <= 0) {
                             clearInterval(countdownInterval);
-                           
-                            // Redirect to WhatsApp
-                            const customerName = document.getElementById('customerName').value;
-                            const customerPhone = document.getElementById('customerPhone').value;
-                            const customerAddress = document.getElementById('customerAddress').value;
-                            const customerCity = document.getElementById('customerCity').value;
-                            const customerZip = document.getElementById('customerZip').value;
-
-                            const message = encodeURIComponent(
-                                `¡Hola! Me interesa comprar ${currentProduct?.name || 'un producto'}.\n\n` +
-                                `Mis datos:\n` +
+                            
+                            // Construye el mensaje de WhatsApp
+                            const msg = encodeURIComponent(
+                                `¡Hola! Me interesa comprar ${currentProduct?.name || ''}.\n\n` +
                                 `Nombre: ${customerName}\n` +
                                 `Teléfono: ${customerPhone}\n` +
                                 `Dirección: ${customerAddress}\n` +
-                                `Ciudad: ${customerCity}\n` +
-                                `Código Postal: ${customerZip}`
+                                `Ciudad: ${customerCity}`
                             );
-
-                            window.location.href = `https://wa.me/573180054426?text=${message}`;
+                            
+                            // Redirige directamente usando el formato wa.me estándar
+                            window.location.href = `https://wa.me/573180054426?text=${msg}`;
+                            
+                            // Limpia el formulario después de redirigir
+                            document.getElementById('successMessage').style.display = 'none';
+                            document.getElementById('purchaseForm').reset();
                         }
                     }, 1000);
                 } else {
-                    // If form is invalid, trigger the browser's validation UI
                     this.classList.add('was-validated');
                 }
             });
@@ -879,10 +814,11 @@ function showProductDetail(productId) {
     document.getElementById('catalogSection').style.display = 'none';
     document.getElementById('productDetail').style.display = 'block';
 
-    // Wire up the Comprar Ahora button each time
+    // Wire up the Comprar Ahora button for direct WhatsApp redirect
     const buyBtn = document.getElementById('buyButton');
     buyBtn.onclick = () => {
-      document.getElementById('customerForm').style.display = 'block';
+        const msg = encodeURIComponent(`¡Estoy interesado en el producto ${product.name} de Nextgens Tech!`);
+        window.location.href = `https://wa.me/573180054426?text=${msg}`;
     };
 }
 
@@ -992,5 +928,10 @@ customerForm.addEventListener('click', function(e) {
     }
 });
     </script>
+    <!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/573180054426?text=Hola%20quiero%20más%20información%20de%20los%20productos%20de%20NEXTGENS" 
+   class="whatsapp-float" target="_blank" title="Chatea por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
 </body>
 </html>
