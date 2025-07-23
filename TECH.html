@@ -15,7 +15,6 @@
             --secondary-color: #f8f9fa;
             --accent-color: #808080;
             --blue: #009fe3;
-            
         }
 
         body {
@@ -43,21 +42,69 @@
             text-align: center;
         }
 
+        /* ESTILOS MEJORADOS PARA LAS CARDS */
         .card {
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
             margin-bottom: 20px;
             border: 1px solid #ddd;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-img-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
         }
 
         .card-img-top {
-            height: 200px;
+            max-height: 100%;
+            max-width: 100%;
             object-fit: contain;
-            padding: 15px;
+            width: auto;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            min-height: 2.5rem;
+            font-weight: 600;
+        }
+
+        .card-text {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .card-footer {
+            background: white !important;
+            border-top: none !important;
+            padding: 0 1.25rem 1.25rem !important;
         }
 
         .category-badge {
@@ -69,11 +116,13 @@
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
+            z-index: 1;
         }
 
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
+            font-weight: 500;
         }
 
         .btn-primary:hover {
@@ -92,6 +141,7 @@
             border: 1px solid var(--primary-color);
             color: var(--primary-color);
             background-color: white;
+            transition: all 0.2s;
         }
 
         .category-btn.active, .category-btn:hover {
@@ -153,12 +203,17 @@
         /* Product detail page styling */
         .product-image-lg {
             max-height: 400px;
+            width: 100%;
             object-fit: contain;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
         }
 
         .product-price {
             font-size: 2rem;
             font-weight: bold;
+            color: var(--primary-color);
         }
 
         .product-specs {
@@ -221,37 +276,37 @@
             transform: skewX(-30deg);
             animation: shine 3s infinite;
         }
-        /* Botón flotante de WhatsApp */
-.whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 25px;
-    right: 25px;
-    background-color: #25d366;
-    color: #fff;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 2.5rem;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-    z-index: 1200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-}
-.whatsapp-float:hover {
-    background-color: #128c7e;
-    color: #fff;
-    text-decoration: none;
-}
 
+        /* Botón flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 2.5rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: scale(1.1);
+        }
 
         @keyframes shine {
             to {
                 left: 100%;
             }
         }
+
         /* Responsivo */
         @media (max-width: 768px) {
             .hero-section {
@@ -262,52 +317,56 @@
                 margin: 20px;
                 padding: 15px;
             }
-        }
-        /* Additional styles for responsiveness */
-        @media (max-width: 576px) {
-            .card-img-top {
-            height: 150px;
-            }
 
+            .card-img-container {
+                height: 180px;
+                padding: 10px;
+            }
+            
+            .card-title {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 576px) {
             .product-image-lg {
-            max-height: 300px;
+                max-height: 300px;
             }
 
             .promo-banner {
-            font-size: 0.9rem;
-            padding: 0.5rem;
+                font-size: 0.9rem;
+                padding: 0.5rem;
             }
 
             .category-btn {
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .card-img-container {
+                height: 150px;
             }
         }
 
         @media (max-width: 992px) {
             .hero-section h1 {
-            font-size: 2rem;
+                font-size: 2rem;
             }
 
             .hero-section p {
-            font-size: 1rem;
+                font-size: 1rem;
             }
 
             .form-container {
-            padding: 20px;
+                padding: 20px;
             }
         }
-        @media (max-width: 768px) {
-    .card-img-top, .img-container {
-        height: 150px;
-    }
-}
     </style>
 </head>
 
 <body>
     
-    <!-- Navie -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -321,20 +380,17 @@
                      <li class="nav-item">
                         <a class="nav-link" href="index.html">Inicio</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link " href="https://www.instagram.com/nextgens.s/" >Instagram</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://wa.me/573180054426?text=Hola quiero comprar.">WhatsApp</a>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
 
-    </header>
     <!-- Catalog Section -->
     <section id="catalogSection">
         <!-- Hero Section -->
@@ -351,6 +407,7 @@
         <!-- Category Filter -->
         <div class="container">
             <div class="category-filter text-center">
+                <input type="text" id="searchBar" class="form-control mb-4" placeholder="Buscar productos...">
                 <h3 class="mb-3">Categorías</h3>
                 <div>
                     <button class="btn category-btn active" data-category="all">Todos</button>
@@ -378,7 +435,9 @@
         </div>
         <div class="row">
             <div class="col-md-6 mb-4">
-                <img src="" alt="Product Image" id="detailImage" class="img-fluid product-image-lg">
+                <div class="bg-light p-3 rounded text-center">
+                    <img src="" alt="Product Image" id="detailImage" class="img-fluid product-image-lg">
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="category-badge" id="detailCategory"></div>
@@ -409,6 +468,56 @@
             </div>
         </div>
     </section>
+
+    <!-- Customer Form -->
+    <div id="customerForm">
+        <div class="form-container">
+            <h3 class="form-title">Información del Cliente</h3>
+            <form id="purchaseForm" novalidate>
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="customerName" required>
+                    <div class="invalid-feedback">
+                        Por favor ingresa tu nombre completo.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="customerPhone" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="customerPhone" required>
+                    <div class="invalid-feedback">
+                        Por favor ingresa tu número de teléfono.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="customerAddress" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="customerAddress" required>
+                    <div class="invalid-feedback">
+                        Por favor ingresa tu dirección.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="customerCity" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="customerCity" required>
+                    <div class="invalid-feedback">
+                        Por favor ingresa tu ciudad.
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Confirmar compra</button>
+                    <button type="button" class="btn btn-outline-secondary" id="cancelPurchase">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage">
+        <div class="success-content">
+            <h3><i class="fas fa-check-circle text-success"></i> ¡Compra confirmada!</h3>
+            <p>Serás redirigido a WhatsApp en <span id="countdown">3</span> segundos...</p>
+            <p>Si no eres redirigido automáticamente, haz clic en el botón de WhatsApp.</p>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -524,6 +633,7 @@
             {
                 id: 8,
                 name: "Mouse inalámbrico",
+                price: "$45.000",
                 category: "accesorios",
                 image: "mouse.png",
                 description: "Mouse ergonómico inalámbrico con receptor USB incluido.",
@@ -590,7 +700,6 @@
                 </ul>
                 `
             },
-
             {
                 id: 13,
                 name: "Cargador Xiaomi 67W Max",
@@ -619,7 +728,6 @@
                 </ul>
                 `
             },
-       
             {
                 id: 15,
                 name: "ultrapods",
@@ -634,7 +742,7 @@
                 </ul>
                 `
             },
-                 {
+            {
                 id: 16,
                 name: "Cargador iPhone",
                 price: "$35.000",
@@ -648,9 +756,7 @@
                 </ul>
                 `
             },
-
         ];
-
 
         // Variables to track the current product
         let currentProduct = null;
@@ -678,16 +784,9 @@
                 showCatalog();
             });
 
-            // Catalog link in navbar
-            document.getElementById('catalogLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                showCatalog();
-            });
-
             // Buy button
             document.getElementById('buyButton').addEventListener('click', function() {
                 if (currentProduct) {
-                    console.log("Producto actual:", currentProduct); // Verifica el producto actual
                     document.getElementById('customerForm').style.display = 'block';
                 } else {
                     console.error("No se ha seleccionado un producto.");
@@ -697,14 +796,10 @@
             // Cancel purchase button
             document.getElementById('cancelPurchase').addEventListener('click', function(e) {
                 e.preventDefault();
-                e.stopPropagation();
-                // Hide the modal
                 document.getElementById('customerForm').style.display = 'none';
-                // Reset form values and validation state
                 const form = document.getElementById('purchaseForm');
                 form.reset();
                 form.classList.remove('was-validated');
-                // Optionally clear any in-flight countdown (if you store it globally)
                 if (window._purchaseCountdown) {
                     clearInterval(window._purchaseCountdown);
                     window._purchaseCountdown = null;
@@ -714,15 +809,11 @@
             // Close modal when clicking outside the form-container
             const customerForm = document.getElementById('customerForm');
             customerForm.addEventListener('click', function(e) {
-                // if the click target is the overlay itself (not inside .form-container)
                 if (e.target === customerForm) {
-                    // hide modal
                     customerForm.style.display = 'none';
-                    // reset form
                     const form = document.getElementById('purchaseForm');
                     form.reset();
                     form.classList.remove('was-validated');
-                    // clear any running countdown
                     if (window._purchaseCountdown) {
                         clearInterval(window._purchaseCountdown);
                         window._purchaseCountdown = null;
@@ -735,17 +826,14 @@
                 e.preventDefault();
 
                 if (this.checkValidity()) {
-                    // Obtén los datos del formulario
                     const customerName = document.getElementById('customerName').value;
                     const customerPhone = document.getElementById('customerPhone').value;
                     const customerAddress = document.getElementById('customerAddress').value;
                     const customerCity = document.getElementById('customerCity').value;
 
-                    // Oculta el formulario y muestra el mensaje de éxito
                     document.getElementById('customerForm').style.display = 'none';
                     document.getElementById('successMessage').style.display = 'block';
 
-                    // Cuenta regresiva y redirección a WhatsApp
                     let count = 3;
                     document.getElementById('countdown').textContent = count;
                     const countdownInterval = setInterval(function() {
@@ -754,7 +842,6 @@
                         if (count <= 0) {
                             clearInterval(countdownInterval);
                             
-                            // Construye el mensaje de WhatsApp
                             const msg = encodeURIComponent(
                                 `¡Hola! Me interesa comprar ${currentProduct?.name || ''}.\n\n` +
                                 `Nombre: ${customerName}\n` +
@@ -763,10 +850,8 @@
                                 `Ciudad: ${customerCity}`
                             );
                             
-                            // Redirige directamente usando el formato wa.me estándar
                             window.location.href = `https://wa.me/573180054426?text=${msg}`;
                             
-                            // Limpia el formulario después de redirigir
                             document.getElementById('successMessage').style.display = 'none';
                             document.getElementById('purchaseForm').reset();
                         }
@@ -774,6 +859,16 @@
                 } else {
                     this.classList.add('was-validated');
                 }
+            });
+
+            // Search functionality
+            document.getElementById('searchBar').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const filteredProducts = products.filter(product =>
+                    product.name.toLowerCase().includes(query) ||
+                    product.description.toLowerCase().includes(query)
+                );
+                displaySearchResults(filteredProducts);
             });
         });
 
@@ -788,59 +883,59 @@
 
             filteredProducts.forEach(product => {
                 const productCard = document.createElement('div');
-                productCard.className = 'col-md-4 col-lg-3 col-sm-6';
+                productCard.className = 'col-md-4 col-lg-3 col-sm-6 mb-4';
                 productCard.innerHTML = `
                     <div class="card h-100">
                         <span class="category-badge">${getCategoryName(product.category)}</span>
-                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-img-container">
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}" loading="lazy">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text text-primary fw-bold">${product.price}</p>
-                        </div>
-                        <div class="card-footer border-0 bg-white">
-                            <button class="btn btn-primary w-100 view-product" data-id="${product.id}">Ver detalles</button>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100 view-product" data-id="${product.id}">
+                                    Ver detalles
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
                 container.appendChild(productCard);
 
                 // Add event listener to the button
-                const viewButton = productCard.querySelector('.view-product');
-                viewButton.addEventListener('click', function() {
-                    const productId = parseInt(this.getAttribute('data-id'));
-                    showProductDetail(productId);
+                productCard.querySelector('.view-product').addEventListener('click', function() {
+                    showProductDetail(parseInt(this.getAttribute('data-id')));
                 });
             });
         }
-// Function to show product detail
-function showProductDetail(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
 
-    currentProduct = product; // Actualiza currentProduct
+        // Function to show product detail
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
 
-    // Update detail page content
-    document.getElementById('detailImage').src = product.image;
-    document.getElementById('detailTitle').textContent = product.name;
-    document.getElementById('detailPrice').textContent = product.price;
-    document.getElementById('detailDescription').textContent = product.description;
-    document.getElementById('detailCategory').textContent = getCategoryName(product.category);
-    document.getElementById('detailSpecs').innerHTML = product.specs;
+            currentProduct = product;
 
-    // Debugging: Verifica que currentProduct se actualice correctamente
-    console.log("Producto seleccionado:", currentProduct);
+            // Update detail page content
+            document.getElementById('detailImage').src = product.image;
+            document.getElementById('detailTitle').textContent = product.name;
+            document.getElementById('detailPrice').textContent = product.price;
+            document.getElementById('detailDescription').innerHTML = product.description;
+            document.getElementById('detailCategory').textContent = getCategoryName(product.category);
+            document.getElementById('detailSpecs').innerHTML = product.specs;
 
-    // Hide catalog and show product detail
-    document.getElementById('catalogSection').style.display = 'none';
-    document.getElementById('productDetail').style.display = 'block';
+            // Hide catalog and show product detail
+            document.getElementById('catalogSection').style.display = 'none';
+            document.getElementById('productDetail').style.display = 'block';
 
-    // Wire up the Comprar Ahora button for direct WhatsApp redirect
-    const buyBtn = document.getElementById('buyButton');
-    buyBtn.onclick = () => {
-        const msg = encodeURIComponent(`¡Estoy interesado en el producto ${product.name} de Nextgens Tech!`);
-        window.location.href = `https://wa.me/573180054426?text=${msg}`;
-    };
-}
+            // Wire up the Comprar Ahora button for direct WhatsApp redirect
+            const buyBtn = document.getElementById('buyButton');
+            buyBtn.onclick = () => {
+                const msg = encodeURIComponent(`¡Estoy interesado en el producto ${product.name} de Nextgens Tech!`);
+                window.location.href = `https://wa.me/573180054426?text=${msg}`;
+            };
+        }
 
         // Function to show catalog
         function showCatalog() {
@@ -861,26 +956,6 @@ function showProductDetail(productId) {
             };
             return categories[category] || category;
         }
-        // Search functionality
-        const searchInput = document.createElement('input');
-        searchInput.type = 'text';
-        searchInput.placeholder = 'Buscar productos...';
-        searchInput.className = 'form-control mb-4';
-        searchInput.id = 'searchBar';
-
-        // Add search bar to the category filter section
-        const categoryFilter = document.querySelector('.category-filter');
-        categoryFilter.insertBefore(searchInput, categoryFilter.firstChild);
-
-        // Event listener for search input
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const filteredProducts = products.filter(product =>
-            product.name.toLowerCase().includes(query) ||
-            product.description.toLowerCase().includes(query)
-            );
-            displaySearchResults(filteredProducts);
-        });
 
         // Function to display search results
         function displaySearchResults(filteredProducts) {
@@ -888,70 +963,54 @@ function showProductDetail(productId) {
             container.innerHTML = '';
 
             if (filteredProducts.length === 0) {
-            container.innerHTML = '<p class="text-center">No se encontraron productos.</p>';
-            return;
+                container.innerHTML = '<p class="text-center">No se encontraron productos.</p>';
+                return;
             }
 
             filteredProducts.forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = 'col-md-4 col-lg-3 col-sm-6';
-            productCard.innerHTML = `
-                <div class="card h-100">
-                <span class="category-badge">${getCategoryName(product.category)}</span>
-                <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                <div class="card-body">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text text-primary fw-bold">${product.price}</p>
-                </div>
-                <div class="card-footer border-0 bg-white">
-                    <button class="btn btn-primary w-100 view-product" data-id="${product.id}">Ver detalles</button>
-                </div>
-                </div>
-            `;
-            container.appendChild(productCard);
+                const productCard = document.createElement('div');
+                productCard.className = 'col-md-4 col-lg-3 col-sm-6 mb-4';
+                productCard.innerHTML = `
+                    <div class="card h-100">
+                        <span class="category-badge">${getCategoryName(product.category)}</span>
+                        <div class="card-img-container">
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}" loading="lazy">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text text-primary fw-bold">${product.price}</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100 view-product" data-id="${product.id}">
+                                    Ver detalles
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productCard);
 
-            // Add event listener to the button
-            const viewButton = productCard.querySelector('.view-product');
-            viewButton.addEventListener('click', function() {
-                const productId = parseInt(this.getAttribute('data-id'));
-                showProductDetail(productId);
-            });
+                // Add event listener to the button
+                productCard.querySelector('.view-product').addEventListener('click', function() {
+                    showProductDetail(parseInt(this.getAttribute('data-id')));
+                });
             });
         }
+
         // Shuffle products array for random order
         function shuffleProducts() {
             for (let i = products.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [products[i], products[j]] = [products[j], products[i]];
+                const j = Math.floor(Math.random() * (i + 1));
+                [products[i], products[j]] = [products[j], products[i]];
             }
         }
 
         // Shuffle products before loading them
         shuffleProducts();
-
-        // Close modal when clicking outside the form-container
-const customerForm = document.getElementById('customerForm');
-customerForm.addEventListener('click', function(e) {
-    // if the click target is the overlay itself (not inside .form-container)
-    if (e.target === customerForm) {
-        // hide modal
-        customerForm.style.display = 'none';
-        // reset form
-        const form = document.getElementById('purchaseForm');
-        form.reset();
-        form.classList.remove('was-validated');
-        // clear any running countdown
-        if (window._purchaseCountdown) {
-            clearInterval(window._purchaseCountdown);
-            window._purchaseCountdown = null;
-        }
-    }
-});
     </script>
     <!-- Botón flotante de WhatsApp -->
-<a href="https://wa.me/573180054426?text=Hola%20quiero%20más%20información%20de%20los%20productos%20de%20NEXTGENS" 
-   class="whatsapp-float" target="_blank" title="Chatea por WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
+    <a href="https://wa.me/573180054426?text=Hola%20quiero%20más%20información%20de%20los%20productos%20de%20NEXTGENS" 
+       class="whatsapp-float" target="_blank" title="Chatea por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 </body>
 </html>
